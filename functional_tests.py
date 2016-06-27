@@ -21,7 +21,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
-        self.browser.implicitly_wait(1)
+        self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()
@@ -43,16 +43,16 @@ class NewVisitorTest(unittest.TestCase):
         )
 
         # El usuario escribe "Practicar canto en inglés" en la caja de texto
-        input.send_keys('Practicar canto en inglés')
+        inputbox.send_keys('Practicar canto en inglés')
 
         # Cuando el usuario presiona enter la página se actualiza, y ahora la página lista
         # "1. Practicar canto en inglés"
-        input.send_keys(Keys.ENTER)
+        inputbox.send_keys(Keys.ENTER)
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertTrue(
-            any(row.text == '1: Practicar canto en inglés' for row in rows)
+            any(row.text == 'New to-do item did not appear in table' for row in rows)
         )
 
         # La página continúa mostrando una caja de texto para añadir más ítems al "To-Do".
