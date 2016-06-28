@@ -51,19 +51,23 @@ class NewVisitorTest(unittest.TestCase):
 
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
-        self.assertTrue(
-            any(row.text == 'New to-do item did not appear in table' for row in rows)
-        )
+        self.assertIn('1: Practicar canto en inglés', [row.text for row in rows])
 
-        # La página continúa mostrando una caja de texto para añadir más ítems al "To-Do".
-        # El usuario ingresa "Estudiar Python"
-        self.fail('Finish the test!')
+        #Hay todavía una caja y luego agrega 'jugar pinpong'
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys('Jugar pinpong')
+        inputbox.send_keys(Keys.ENTER)
 
-        # La página se actualiza de nuevo y ahora muestra ambos ítems en la lista
+        #La página se vuelve a actualizar y ahora muestra los dos ítems
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Practicar canto en inglés', [row.text for row in rows])
+        self.assertIn('2: Jugar pinpong', [row.text for row in rows])
 
         # El usuario quisiera saber que el sitio web recordará la lista, ella nota
         # un letrero que dice que el sitio generó una URL única -- Allí hay un texto
         # que explica ello
+        self.fail('Finish the test!')
 
         #Ella visita esa URL y su lista continúa allí
 if __name__ == '__main__':
