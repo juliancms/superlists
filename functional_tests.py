@@ -26,6 +26,11 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_for_row_in_list_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Chequeo de la página principal de la aplicación To-Do
         self.browser.get("http://localhost:8000")
@@ -48,10 +53,7 @@ class NewVisitorTest(unittest.TestCase):
         # Cuando el usuario presiona enter la página se actualiza, y ahora la página lista
         # "1. Practicar canto en inglés"
         inputbox.send_keys(Keys.ENTER)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Practicar canto en inglés', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Practicar canto en inglés')
 
         #Hay todavía una caja y luego agrega 'jugar pinpong'
         inputbox = self.browser.find_element_by_id('id_new_item')
@@ -59,10 +61,8 @@ class NewVisitorTest(unittest.TestCase):
         inputbox.send_keys(Keys.ENTER)
 
         #La página se vuelve a actualizar y ahora muestra los dos ítems
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn('1: Practicar canto en inglés', [row.text for row in rows])
-        self.assertIn('2: Jugar pinpong', [row.text for row in rows])
+        self.check_for_row_in_list_table('1: Practicar canto en inglés')
+        self.check_for_row_in_list_table('2: Jugar pinpong')
 
         # El usuario quisiera saber que el sitio web recordará la lista, ella nota
         # un letrero que dice que el sitio generó una URL única -- Allí hay un texto
