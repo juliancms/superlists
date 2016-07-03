@@ -14,10 +14,11 @@
 #
 #     You should have received a copy of the GNU General Public License
 #     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import unittest
-class NewVisitorTest(unittest.TestCase):
+
+class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Firefox()
@@ -33,7 +34,7 @@ class NewVisitorTest(unittest.TestCase):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # Chequeo de la página principal de la aplicación To-Do
-        self.browser.get("http://localhost:8000")
+        self.browser.get(self.live_server_url)
 
         # El título de la página menciona la palabra 'To-Do'
         self.assertIn('To-Do', self.browser.title)
@@ -70,5 +71,3 @@ class NewVisitorTest(unittest.TestCase):
         self.fail('Finish the test!')
 
         #Ella visita esa URL y su lista continúa allí
-if __name__ == '__main__':
-    unittest.main(warnings='ignore')
