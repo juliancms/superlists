@@ -72,7 +72,7 @@ class NewVisitorTest(LiveServerTestCase):
         ## Se utiliza una nueva sesión del navegador para estar seguros de que
         ## ninguna información del otro usuario viene a través de cookies, etc
         self.browser.quit()
-        self.browser.webdriver.Firefox()
+        self.browser = webdriver.Firefox()
 
         # El nuevo usuario visita la página de inicio. No hay ninguna información
         self.browser.get(self.live_server_url)
@@ -91,11 +91,8 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(francis_list_url, edith_list_url)
 
         # De nuevo, no hay ninguna información del usuario anterior
-        page_text = self.brwoser.find_element_by_tag_name('body').text
+        page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Practicar canto en inglés', page_text)
         self.assertIn('Buy milk', page_text)
 
         #Satisfied, they both go back to sleep
-        self.fail('Finish the test!')
-
-        #Ella visita esa URL y su lista continúa allí
