@@ -76,6 +76,7 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get('/lists/%d/' % (correct_list.id,))
         self.assertEqual(response.context['list'], correct_list)
+        
 class NewListTest(TestCase):
 
     def test_saving_a_POST_request(self):
