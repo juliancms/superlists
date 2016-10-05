@@ -16,10 +16,7 @@ class HomePageTest(TestCase):
         response = home_page(request)
         expected_html = render_to_string('home.html')
         self.assertEqual(response.content.decode(), expected_html)
-        self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertIn(b'<title>To-Do lists</title>', response.content)
-        self.assertTrue(response.content.strip().endswith(b'</html>'))
-
+        
 class ListAndItemModelTest(TestCase):
 
     def test_saving_and_retrieving_items(self):
@@ -76,7 +73,7 @@ class ListViewTest(TestCase):
         correct_list = List.objects.create()
         response = self.client.get('/lists/%d/' % (correct_list.id,))
         self.assertEqual(response.context['list'], correct_list)
-        
+
 class NewListTest(TestCase):
 
     def test_saving_a_POST_request(self):
